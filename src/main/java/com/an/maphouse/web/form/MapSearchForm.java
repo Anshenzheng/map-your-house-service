@@ -34,8 +34,8 @@ public class MapSearchForm {
     @ApiModelProperty(value = "页面大小， 默认为5， 不能小于1", example = "15")
     private int pageSize = 5;
 
-    @ApiModelProperty(value = "出租方式(0: 二手房 1:新房)", allowableValues = "0, 1", example = "0")
-    private Integer rentWay = -1;
+    @ApiModelProperty(value = "房屋类型(0: 二手房 1:新房)", allowableValues = "0, 1", example = "0")
+    private Integer houseType = -1;
 
     @ApiModelProperty(value = "价格区间最小值", example = "0")
     @Min(value = 0, message = "最低价格不能小于0")

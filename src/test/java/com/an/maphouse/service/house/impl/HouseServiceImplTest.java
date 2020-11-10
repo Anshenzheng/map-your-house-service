@@ -62,7 +62,7 @@ class HouseServiceImplTest extends MapHouseApplicationTests {
         // 查租房方式为新房的
         searchHouseForm = new SearchHouseForm();
         searchHouseForm.setCityEnName("bj");
-        searchHouseForm.setRentWay(HouseTypeEnum.WHOLE.getValue());
+        searchHouseForm.setHouseType(HouseTypeEnum.WHOLE.getValue());
         ServiceMultiResult<HouseDTO> search3 = houseService.search(searchHouseForm);
         Assert.isTrue(search3.getTotal() == 2, "查租房方式为新房的的不匹配");
         // 查找标签为独立卫生间的

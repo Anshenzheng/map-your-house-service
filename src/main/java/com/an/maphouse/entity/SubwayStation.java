@@ -2,10 +2,7 @@ package com.an.maphouse.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 地铁站实体类
@@ -14,13 +11,18 @@ import javax.persistence.Id;
  */
 @Entity
 @Data
+@Table(name="tbl_subway_station")
 public class SubwayStation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long subwayId;
-
+    private String cityId;
+    private String cityName;
+    private String stationId;
     private String name;
+    private String longitude;
+    private String latitude;
+    private String lineId;
+
 }

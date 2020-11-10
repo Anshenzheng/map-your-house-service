@@ -15,10 +15,10 @@ public interface SubwayStationRepository  extends JpaRepository<SubwayStation, L
 
     /**
      * 通过地铁线路id查找地铁站
-     * @param subwayId 地铁线路id
+     * @param lineId 地铁线路id
      * @return 地铁站列表
      */
-    List<SubwayStation> getAllBySubwayId(Long subwayId);
+    List<SubwayStation> getAllByLineIdLike(String lineId);
 
     /**
      * 查询所有在id列表中的地铁

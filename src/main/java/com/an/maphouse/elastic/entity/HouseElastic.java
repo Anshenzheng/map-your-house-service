@@ -65,7 +65,7 @@ public class HouseElastic {
 
     private String roundService;
 
-    private Integer rentWay;
+    private Integer houseType;
 
     private List<HouseSuggestion> suggests;
 

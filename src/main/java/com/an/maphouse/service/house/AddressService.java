@@ -45,10 +45,10 @@ public interface AddressService {
 
     /**
      * 通过地铁线路id查找地铁站
-     * @param subwayId 地铁站id
+     * @param lineId 地铁站id
      * @return 地铁站列表
      */
-    ServiceMultiResult<SubwayStationDTO> findAllSubwayStationBySubwayId(Long subwayId);
+    ServiceMultiResult<SubwayStationDTO> findAllSubwayStationBySubwayId(String lineId);
 
     /**
      * 获取地铁站

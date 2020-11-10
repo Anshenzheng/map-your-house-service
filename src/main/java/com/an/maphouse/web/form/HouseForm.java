@@ -110,9 +110,9 @@ public class HouseForm {
     private String roundService;
 
     /* 出租方式, 1:新房  2: 二手房 */
-    @NotNull(message = "出租方式不能为空")
-    @ApiModelProperty(value = "租房方式： 1: 新房 2: 二手房", required = true, example = "1", allowableValues = "1,2", notes = "1: 新房 2: 二手房")
-    private Integer rentWay;
+    @NotNull(message = "房屋类型不能为空")
+    @ApiModelProperty(value = "房屋类型： 1: 新房 2: 二手房", required = true, example = "1", allowableValues = "1,2", notes = "1: 新房 2: 二手房")
+    private Integer houseType;
 
     @NotNull(message = "房源地址不能为空")
     @ApiModelProperty(value = "房源地址", required = true, example = "拱墅区阮家桥公寓")

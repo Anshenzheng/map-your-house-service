@@ -265,8 +265,8 @@ public class HouseElasticSearchServiceImpl implements HouseElasticSearchService 
                     .boost(2));
         }
         // 出租方式
-        if(searchHouseForm.getRentWay() != null && searchHouseForm.getRentWay() >= 0){
-            boolQueryBuilder.filter(QueryBuilders.termQuery(HouseElasticKey.RENT_WAY, searchHouseForm.getRentWay()));
+        if(searchHouseForm.getHouseType() != null && searchHouseForm.getHouseType() >= 0){
+            boolQueryBuilder.filter(QueryBuilders.termQuery(HouseElasticKey.HOUSE_TYPE, searchHouseForm.getHouseType()));
         }
         // 查询面积区间
         if(searchHouseForm.getAreaMin() != null || searchHouseForm.getAreaMax() != null){

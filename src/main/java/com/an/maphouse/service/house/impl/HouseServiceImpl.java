@@ -669,7 +669,7 @@ public class HouseServiceImpl implements HouseService {
                     if(list.size() != searchHouseForm.getSubwayStationIdList().size()){
                         throw new BusinessException(ApiResponseEnum.SUBWAY_STATION_ERROR);
                     }
-                    if(list.stream().anyMatch(item -> item.getSubwayId().longValue() != subway.getId().longValue())){
+                    if(list.stream().anyMatch(item -> item.getLineId()!=null && subway.getLineId() !=null && item.getLineId().equalsIgnoreCase(item.getLineId()))){
                         throw new BusinessException(ApiResponseEnum.SUBWAY_AND_STATION_MATCH_ERROR);
                     }
                     List<Long> houseIdList = houseDetailRepository.findAllHouseIdBySubwayLineIdAndSubwayStationIdIn(searchHouseForm.getSubwayLineId(), searchHouseForm.getSubwayStationIdList());
@@ -680,10 +680,10 @@ public class HouseServiceImpl implements HouseService {
                 }
             }
             // 出租方式
-            if(searchHouseForm.getRentWay() != null){
-                HouseTypeEnum.fromValue(searchHouseForm.getRentWay()).ifPresent(item -> {
+            if(searchHouseForm.getHouseType() != null){
+                HouseTypeEnum.fromValue(searchHouseForm.getHouseType()).ifPresent(item -> {
                     log.debug("获取到出租方式:{}", item.getValue());
-                    List<Long> houseIdList = houseDetailRepository.findAllByRentWay(item.getValue()).stream().map(HouseDetail::getHouseId).collect(Collectors.toList());
+                    List<Long> houseIdList = houseDetailRepository.findAllByHouseType(item.getValue()).stream().map(HouseDetail::getHouseId).collect(Collectors.toList());
                     predicates.add(root.get("id").in(houseIdList));
                 });
             }
@@ -823,18 +823,18 @@ public class HouseServiceImpl implements HouseService {
         if(houseForm.getSubwayLineId() != null && houseForm.getSubwayStationId() != null){
             Subway subway = subwayRepository.findById(houseForm.getSubwayLineId()).orElseThrow(() -> new BusinessException(ApiResponseEnum.SUBWAY_LINE_ERROR));
             SubwayStation subwayStation = subwayStationRepository.findById(houseForm.getSubwayStationId()).orElseThrow(() -> new BusinessException(ApiResponseEnum.SUBWAY_STATION_ERROR));
-            if(subway.getId().longValue() != subwayStation.getSubwayId().longValue()){
+            if(subway.getLineId() == null || subwayStation.getLineId() == null || !subway.getLineId().equalsIgnoreCase(subwayStation.getLineId())){
                 throw new BusinessException(ApiResponseEnum.SUBWAY_AND_STATION_MATCH_ERROR);
             }
-            houseDetail.setSubwayLineId(subway.getId());
-            houseDetail.setSubwayLineName(subway.getName());
+            houseDetail.setSubwayId(subway.getId());
+            houseDetail.setSubwayLineName(subway.getLineName());
             houseDetail.setSubwayStationId(subwayStation.getId());
             houseDetail.setSubwayStationName(subwayStation.getName());
         }
         houseDetail.setAddress(houseForm.getAddress());
         houseDetail.setDescription(houseForm.getDescription());
         houseDetail.setLayoutDesc(houseForm.getLayoutDesc());
-        houseDetail.setRentWay(houseForm.getRentWay());
+        houseDetail.setHouseType(houseForm.getHouseType());
         houseDetail.setTraffic(houseForm.getTraffic());
         houseDetail.setRoundService(houseForm.getRoundService());
         return houseDetail;

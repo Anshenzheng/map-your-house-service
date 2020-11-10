@@ -98,7 +98,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    @Cacheable(value = "cities:condition", key = "#belongTo + '-' + #level")
+    @Cacheable(value = "cities:condition", key = "#belongTo + '-' + #level", unless = "#result == null || #result.list.size() == 0")
     public ServiceMultiResult<SupportAddressDTO> findAreaByBelongToAndLevel(String belongTo, String level) {
         SupportAddress.AddressLevel levelEnum = SupportAddress.AddressLevel.of(level);
         List<SupportAddressDTO> list = Optional.ofNullable(supportAddressRepository.findAllByBelongToAndLevel(belongTo, levelEnum.getValue()))
@@ -118,10 +118,10 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    @Cacheable(value = "subway:stations", key = "#subwayId")
-    public ServiceMultiResult<SubwayStationDTO> findAllSubwayStationBySubwayId(Long subwayId) {
+    @Cacheable(value = "subway:stations", key = "#lineId")
+    public ServiceMultiResult<SubwayStationDTO> findAllSubwayStationBySubwayId(String lineId) {
         List<SubwayStationDTO> subwayStationDTOList = Optional.ofNullable(subwayStationRepository
-                .getAllBySubwayId(subwayId)).orElse(Collections.emptyList()).stream()
+                .getAllByLineIdLike("%"+lineId+"%")).orElse(Collections.emptyList()).stream()
                 .map(subwayStation -> modelMapper.map(subwayStation, SubwayStationDTO.class)).collect(Collectors.toList());
         return new ServiceMultiResult<>(subwayStationDTOList.size(), subwayStationDTOList);
     }

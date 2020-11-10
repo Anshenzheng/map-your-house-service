@@ -33,6 +33,7 @@ import java.util.Set;
 @DynamicUpdate
 @DynamicInsert
 @ToString
+@Table(name="tbl_user")
 public class User implements UserDetails, Serializable {
 
     @Id

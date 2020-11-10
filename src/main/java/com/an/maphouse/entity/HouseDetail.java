@@ -2,10 +2,7 @@ package com.an.maphouse.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 房屋详情实体类
@@ -14,6 +11,7 @@ import javax.persistence.Id;
  */
 @Entity
 @Data
+@Table(name="tbl_house_detail")
 public class HouseDetail {
 
     @Id
@@ -32,12 +30,12 @@ public class HouseDetail {
     private String roundService;
 
     /* 出租方式, 1:新房  2: 二手房 */
-    private Integer rentWay;
+    private Integer houseType;
 
     private String address;
 
     /* 地铁线路id */
-    private Long subwayLineId;
+    private Long subwayId;
 
     /* 地铁线路名称 */
     private String subwayLineName;

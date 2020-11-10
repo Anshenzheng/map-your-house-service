@@ -4,10 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -20,6 +17,7 @@ import java.util.Date;
 @Data
 @DynamicInsert
 @DynamicUpdate
+@Table(name="tbl_house_subscribe")
 public class HouseSubscribe {
 
     @Id

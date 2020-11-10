@@ -19,7 +19,7 @@ public interface HouseDetailRepository extends JpaRepository<HouseDetail, Long> 
 
     List<HouseDetail> findAllByHouseIdIn(List<Long> houseIdList);
 
-    List<HouseDetail> findAllByRentWay(int rentWay);
+    List<HouseDetail> findAllByHouseType(int houseType);
 
     // 查找所有指定subwayLineId的房源id
     @Query("select houseId from HouseDetail where subwayLineId = :subwayLineId group by houseId")

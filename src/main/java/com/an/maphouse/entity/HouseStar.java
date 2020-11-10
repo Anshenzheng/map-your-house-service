@@ -15,6 +15,7 @@ import java.util.Date;
 @Data
 @DynamicUpdate
 @DynamicInsert
+@Table(name="tbl_house_star")
 public class HouseStar {
 
     @Id

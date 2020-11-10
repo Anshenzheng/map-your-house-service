@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -18,6 +15,7 @@ import java.io.Serializable;
  */
 @Entity
 @Data
+@Table(name="tbl_support_address")
 public class SupportAddress implements Serializable {
 
     @Id

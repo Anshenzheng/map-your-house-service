@@ -2,10 +2,7 @@ package com.an.maphouse.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @author Annan An
@@ -13,6 +10,7 @@ import javax.persistence.Id;
  */
 @Entity
 @Data
+@Table(name="tbl_house_tag")
 public class HouseTag {
 
     @Id

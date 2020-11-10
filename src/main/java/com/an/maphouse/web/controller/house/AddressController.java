@@ -53,10 +53,10 @@ public class AddressController {
         return ApiResponse.ofSuccess(result);
     }
 
-    @GetMapping("support/subwayStations/{subwayId}")
+    @GetMapping("support/subwayStations/{lineId}")
     @ApiOperation(value = "获取地铁线路下的所有地铁站")
-    public ApiResponse<ServiceMultiResult<SubwayStationDTO>> getSubwayStationsBySubwayId(@ApiParam(value = "地铁线路id", required = true, example = "4") @PathVariable Long subwayId){
-        ServiceMultiResult<SubwayStationDTO> result = addressService.findAllSubwayStationBySubwayId(subwayId);
+    public ApiResponse<ServiceMultiResult<SubwayStationDTO>> getSubwayStationsBySubwayId(@ApiParam(value = "地铁线路id", required = true, example = "4") @PathVariable String lineId){
+        ServiceMultiResult<SubwayStationDTO> result = addressService.findAllSubwayStationBySubwayId(lineId);
         return ApiResponse.ofSuccess(result);
     }
 

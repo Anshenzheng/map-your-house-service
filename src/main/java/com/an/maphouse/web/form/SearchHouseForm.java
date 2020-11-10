@@ -33,8 +33,8 @@ public class SearchHouseForm {
     @ApiModelProperty(value = "地铁站id")
     private List<Long> subwayStationIdList;
 
-    @ApiModelProperty(value = "出租方式(0: 二手房 1:新房)", allowableValues = "0, 1", example = "0")
-    private Integer rentWay = -1;
+    @ApiModelProperty(value = "房屋类型(0: 二手房 1:新房)", allowableValues = "0, 1", example = "0")
+    private Integer houseType = -1;
 
     @ApiModelProperty(value = "价格区间最小值", example = "0")
     @Min(value = 0, message = "最低价格不能小于0")
