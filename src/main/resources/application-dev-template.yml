@@ -109,8 +109,10 @@ logging:
 qiniu:
   accessKey: xxxxxx  # 你的七牛云accesskey
   secretKey: xxxxxx  # 你的七牛云accessSecret
-  bucket: hz-map-your-house        # 你的七牛云OSS名称
-  cdnPrefix: http://qiniu.annan.top/  # 你的七牛云cnd前缀名称
+  bucket: map-your-house        # 你的七牛云OSS名称
+  cdnPrefix: http://qjl0lsyuz.hd-bkt.clouddn.com/
+
+  #http://qiniu.annan.top/  # 你的七牛云cnd前缀名称
 # 阿里云配置
 aliyun:
   sms:

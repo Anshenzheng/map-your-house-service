@@ -262,6 +262,7 @@ public class HouseServiceImpl implements HouseService {
         List<HousePictureDTO> housePictureDTO = housePictureList.stream().map(picture -> modelMapper.map(picture, HousePictureDTO.class)).collect(Collectors.toList());
         // 设置组装houseDTO
         houseDTO.setCover(cdnPrefix + houseDTO.getCover());
+
         houseDTO.setTags(new HashSet<>(tagStringList));
         houseDTO.setHouseDetail(houseDetailDTO);
         houseDTO.setHousePictureList(housePictureDTO);
@@ -269,30 +270,36 @@ public class HouseServiceImpl implements HouseService {
     }
 
     private HouseCompleteInfoDTO wrapHouseCompleteDTO(HouseDTO houseDTO){
+        HouseCompleteInfoDTO houseCompleteInfoDTO = new HouseCompleteInfoDTO();
         // 设置地铁信息
         SupportAddressDTO city = addressService.findCityByName(houseDTO.getCityEnName())
                 .orElseThrow(() -> new BusinessException(ApiResponseEnum.ADDRESS_CITY_NOT_FOUND));
         SupportAddressDTO region = addressService.findRegionByCityNameAndName(houseDTO.getCityEnName(), houseDTO.getRegionEnName())
                 .orElseThrow(() -> new BusinessException(ApiResponseEnum.ADDRESS_REGION_NOT_FOUND));
         // 获取地铁线路信息
-        Long subwayLineId = houseDTO.getHouseDetail().getSubwayLineId();
-        String subWayName = houseDTO.getHouseDetail().getSubwayLineName();
-        SubwayDTO subwayDTO = new SubwayDTO();
-        subwayDTO.setId(subwayLineId);
-        subwayDTO.setName(subWayName);
-        // 获取地铁站信息
-        Long subwayStationId = houseDTO.getHouseDetail().getSubwayStationId();
-        String subwayStationName = houseDTO.getHouseDetail().getSubwayStationName();
-        SubwayStationDTO subwayStationDTO = new SubwayStationDTO();
-        subwayStationDTO.setId(subwayStationId);
-        subwayStationDTO.setName(subwayStationName);
+        HouseDetailDTO houseDetailDTO = houseDTO.getHouseDetail();
+        if(houseDetailDTO != null){
+            Long subwayLineId = houseDTO.getHouseDetail().getSubwayLineId();
+            String subWayName = houseDTO.getHouseDetail().getSubwayLineName();
+            SubwayDTO subwayDTO = new SubwayDTO();
+            subwayDTO.setId(subwayLineId);
+            subwayDTO.setLineName(subWayName);
+            // 获取地铁站信息
+            Long subwayStationId = houseDTO.getHouseDetail().getSubwayStationId();
+            String subwayStationName = houseDTO.getHouseDetail().getSubwayStationName();
+            SubwayStationDTO subwayStationDTO = new SubwayStationDTO();
+            subwayStationDTO.setId(subwayStationId);
+            subwayStationDTO.setName(subwayStationName);
+
+            houseCompleteInfoDTO.setSubway(subwayDTO);
+            houseCompleteInfoDTO.setSubwayStation(subwayStationDTO);
+        }
+
         // 拼装返回信息
-        HouseCompleteInfoDTO houseCompleteInfoDTO = new HouseCompleteInfoDTO();
         houseCompleteInfoDTO.setHouse(houseDTO);
         houseCompleteInfoDTO.setCity(city);
         houseCompleteInfoDTO.setRegion(region);
-        houseCompleteInfoDTO.setSubway(subwayDTO);
-        houseCompleteInfoDTO.setSubwayStation(subwayStationDTO);
+
 
         // 计算房源被收藏次数
         long number = redisStarService.getHouseStarCount(houseDTO.getId());

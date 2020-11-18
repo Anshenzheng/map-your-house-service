@@ -22,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -45,6 +47,9 @@ public class SmsCodeServiceImpl implements SmsCodeService {
     private StringRedisTemplate stringRedisTemplate;
 
     @Resource
+    private JavaMailSender javaMailSender;
+
+    @Resource
     private Gson gson;
 
     private static final int REDIS_SMS_CONTENT_KEY_EXPIRE = 60 * 15; // 内容key15分钟过期
@@ -62,8 +67,15 @@ public class SmsCodeServiceImpl implements SmsCodeService {
         }
         String contentKey = SMS_CODE_CONTENT_PREFIX + generateSmsKey(phone, operationType);
         String code = RandomStringUtils.randomNumeric(aLiYunSmsProperties.getLength());
-        aliSendSms(phone, code);
-        log.debug("验证码:{}", code);
+       // aliSendSms(phone, code); --Skip the SMS, sending via mail
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom("496900123@qq.com");
+        mailMessage.setTo("496900123@qq.com");
+        mailMessage.setSubject("[Map Your House]验证码: " + code);
+        mailMessage.setText("[Map Your House]验证码: " + code);
+        javaMailSender.send(mailMessage);
+        //End Sending the code to mail
+        log.info("验证码:{}", code);
         stringRedisTemplate.opsForValue().set(contentKey, code, REDIS_SMS_CONTENT_KEY_EXPIRE, TimeUnit.SECONDS);
         stringRedisTemplate.opsForValue().set(intervalKey, code, REDIS_SMS_INTERVAL_KEY_EXPIRE, TimeUnit.SECONDS);
         return code;

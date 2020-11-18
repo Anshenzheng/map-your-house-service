@@ -30,9 +30,9 @@ public class House {
 
     private Integer room;
 
-    private Integer floor;
+    private String floor;
 
-    private Integer totalFloor;
+    private String totalFloor;
 
     private Integer watchTimes;
 

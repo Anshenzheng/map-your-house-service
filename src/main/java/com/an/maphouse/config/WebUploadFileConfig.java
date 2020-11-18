@@ -34,7 +34,7 @@ public class WebUploadFileConfig {
      */
     @Bean
     public com.qiniu.storage.Configuration qiniuConfiguration(){
-        return new com.qiniu.storage.Configuration(Region.region2());
+        return new com.qiniu.storage.Configuration(Region.huadong());
     }
 
     /**

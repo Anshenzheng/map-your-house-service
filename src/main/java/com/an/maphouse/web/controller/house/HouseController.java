@@ -90,7 +90,19 @@ public class HouseController {
         searchHouseForm.setCityEnName(houseInfo.getCity().getEnName());
         searchHouseForm.setKeyword(houseInfo.getHouse().getTitle());
         ServiceMultiResult<HouseDTO> suggestResult = houseService.search(searchHouseForm);
-        List<HouseDTO> suggest = suggestResult.getList().stream().filter(item -> item.getId().longValue() != id).collect(Collectors.toList());
+        List<HouseDTO> suggest ;
+        if(suggestResult == null){
+            suggest = new ArrayList<>();
+        }else{
+            List<HouseDTO> houseDTOS  = suggestResult.getList();
+            if(houseDTOS == null){
+                suggest = new ArrayList<>();
+            }else{
+                suggest  = houseDTOS.stream().filter(item -> item!=null && item.getId()!=null && item.getId().longValue() != id).collect(Collectors.toList());
+
+            }
+
+        }
 
         // 如果当前用户已经登录，则判断当前用户是否搜藏预约过房源
         if(AuthenticatedUserUtil.isAuthenticated()){

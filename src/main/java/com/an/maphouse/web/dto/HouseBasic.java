@@ -31,10 +31,10 @@ public class HouseBasic {
     private Integer room;
 
     @ApiModelProperty(value = "楼层", example = "12")
-    private Integer floor;
+    private String floor;
 
     @ApiModelProperty(value = "总楼层", example = "18")
-    private Integer totalFloor;
+    private String totalFloor;
 
     @ApiModelProperty(value = "被查看次数", example = "0")
     private Integer watchTimes;
