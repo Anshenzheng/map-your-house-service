@@ -80,7 +80,7 @@
         "analyzer": "ik_smart",
         "search_analyzer": "ik_smart"
       },
-      "rentWay": {
+      "houseType": {
         "type": "integer"
       },
       "suggests": {

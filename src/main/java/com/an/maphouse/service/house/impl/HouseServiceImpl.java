@@ -437,14 +437,19 @@ public class HouseServiceImpl implements HouseService {
         modelMapper.map(mapSearchForm, searchHouseForm);
         ServiceMultiResult<HouseElastic> houseElasticServiceMultiResult = houseElasticSearchService.search(searchHouseForm);
         // id与位置坐标映射
-        Map<Long, BaiduMapLocation> idLocationMap = houseElasticServiceMultiResult.getList().stream().
-                collect(Collectors.toMap(HouseElastic::getHouseId, HouseElastic::getLocation));
-        List<Long> houseIdList = houseElasticServiceMultiResult.getList().stream().map(HouseElastic::getHouseId).collect(Collectors.toList());
-        List<HouseDTO> houseDTOList = wrapperHouseResult(houseIdList);
+        Map<Long, BaiduMapLocation> idLocationMap = houseElasticServiceMultiResult.getList().stream()
+                .filter(houseElastic -> houseElastic != null && houseElastic.getHouseId() != null && houseElastic.getLocation() != null)
+                .collect(Collectors.toMap(HouseElastic::getHouseId, HouseElastic::getLocation));
+        List<Long> houseIdList = houseElasticServiceMultiResult.getList().stream().filter(Objects::nonNull).map(HouseElastic::getHouseId).collect(Collectors.toList());
+        List<HouseDTO> houseDTOList;
+        houseDTOList = wrapperHouseResult(houseIdList);
         // 设置地理坐标
         houseDTOList.forEach(house -> {
-            house.setLocation(idLocationMap.get(house.getId()));
+            if(house != null){
+                house.setLocation(idLocationMap.get(house.getId()));
+            }
         });
+
         return new ServiceMultiResult<>(houseElasticServiceMultiResult.getTotal(), houseDTOList);
     }
 
@@ -696,10 +701,10 @@ public class HouseServiceImpl implements HouseService {
             }
             // 价格区间
             if(searchHouseForm.getPriceMin() != null){
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), searchHouseForm.getPriceMin()));
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), searchHouseForm.getPriceMin()/10000.0));
             }
             if(searchHouseForm.getPriceMax() != null){
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), searchHouseForm.getPriceMax()));
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), searchHouseForm.getPriceMax()/10000.0));
             }
             // 房源标签
             if(searchHouseForm.getTags() != null && !searchHouseForm.getTags().isEmpty()){

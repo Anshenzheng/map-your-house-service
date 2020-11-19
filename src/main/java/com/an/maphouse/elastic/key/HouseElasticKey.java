@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class HouseElasticKey {
 
-    public static final String HOUSE_ID = "houseId";
+    public static final String HOUSE_ID = "id";
 
     public static final String TITLE = "title";
 

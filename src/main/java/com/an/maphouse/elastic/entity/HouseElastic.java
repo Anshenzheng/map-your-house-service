@@ -18,7 +18,7 @@ import java.util.List;
  * @date 2020/5/19 15:41
  */
 @Data
-@Document(indexName = "house2", type = "_doc", shards = 1, replicas = 0)
+@Document(indexName = "house", type = "_doc", shards = 1, replicas = 0)
 @ToString
 public class HouseElastic {
 
@@ -31,11 +31,11 @@ public class HouseElastic {
 
     private Integer area;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private Date createTime;
 
     @Field(type = FieldType.Keyword, fielddata = true)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private Date lastUpdateTime;
 
     private String cityEnName;
